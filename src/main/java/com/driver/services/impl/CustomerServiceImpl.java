@@ -62,14 +62,11 @@ public class CustomerServiceImpl implements CustomerService {
 			}
 		}
 		if(driver==null){
-			throw new Exception("Cab Unavailable");
+			throw new Exception("No cab available!");
 		}
 
-		TripBooking newTripBooked = new TripBooking();
+		TripBooking newTripBooked = new TripBooking(fromLocation,toLocation,distanceInKm);
 		newTripBooked.setCustomer(customerRepository2.findById(customerId).get());
-		newTripBooked.setFromLocation(fromLocation);
-		newTripBooked.setToLocation(toLocation);
-		newTripBooked.setDistanceInKm(distanceInKm);
 		newTripBooked.setStatus(TripStatus.CONFIRMED);
 		newTripBooked.setDriver(driver);
 		int rate = driver.getCab().getPerKmRate();

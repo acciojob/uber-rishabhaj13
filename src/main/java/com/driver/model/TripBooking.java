@@ -37,6 +37,12 @@ public class TripBooking {
         this.driver = driver;
     }
 
+    public TripBooking(String fromLocation, String toLocation, int distanceInKm) {
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
+        this.distanceInKm = distanceInKm;
+    }
+
     public TripBooking() {
     }
 
