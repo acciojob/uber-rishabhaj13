@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
 			Cab cab = driver.getCab();
 			cab.setAvailable(true);
 			driverRepository2.save(driver);
-			trip.setTripStatus(TripStatus.CANCELED);
+			trip.setStatus(TripStatus.CANCELED);
 		}
 
 		customerRepository2.delete(customer);
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 		List<Driver> drivers = driverRepository2.findAll();
 		Driver driver = null;
 		for(Driver d : drivers){
-			if(d.getCab().isAvailable()){
+			if(d.getCab().getAvailable()){
 				if((driver == null) || (d.getDriverId()  < driver.getDriverId())){
 					driver = d;
 				}
@@ -70,7 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
 		newTripBooked.setFromLocation(fromLocation);
 		newTripBooked.setToLocation(toLocation);
 		newTripBooked.setDistanceInKm(distanceInKm);
-		newTripBooked.setTripStatus(TripStatus.CONFIRMED);
+		newTripBooked.setStatus(TripStatus.CONFIRMED);
 		newTripBooked.setDriver(driver);
 		int rate = driver.getCab().getPerKmRate();
 		newTripBooked.setBill(distanceInKm*rate);
@@ -88,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public void cancelTrip(Integer tripId){
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
 		TripBooking bookedTrip = tripBookingRepository2.findById(tripId).get();
-		bookedTrip.setTripStatus(TripStatus.CANCELED);
+		bookedTrip.setStatus(TripStatus.CANCELED);
 		bookedTrip.getDriver().getCab().setAvailable(true);
 		tripBookingRepository2.save(bookedTrip);
 	}
@@ -97,7 +97,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public void completeTrip(Integer tripId){
 		//Complete the trip having given trip Id and update TripBooking attributes accordingly
 		TripBooking bookedTrip = tripBookingRepository2.findById(tripId).get();
-		bookedTrip.setTripStatus(TripStatus.COMPLETED);
+		bookedTrip.setStatus(TripStatus.COMPLETED);
 		bookedTrip.getDriver().getCab().setAvailable(true);
 		tripBookingRepository2.save(bookedTrip);
 	}
