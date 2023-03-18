@@ -26,13 +26,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void register(Customer customer) {
-		//Save the customer in database
 		customerRepository2.save(customer);
 	}
 
 	@Override
 	public void deleteCustomer(Integer customerId) {
-		// Delete customer without using deleteById function
 		Customer customer = customerRepository2.findById(customerId).get();
 		List<TripBooking> bookedTrips = customer.getTripBookingList();
 
@@ -49,8 +47,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public TripBooking bookTrip(int customerId, String fromLocation, String toLocation, int distanceInKm) throws Exception{
-		//Book the driver with lowest driverId who is free (cab available variable is Boolean.TRUE). If no driver is available, throw "No cab available!" exception
-		//Avoid using SQL query
 		List<Driver> drivers = driverRepository2.findAll();
 		Driver driver = null;
 		for(Driver d : drivers){
@@ -83,7 +79,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void cancelTrip(Integer tripId){
-		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
 		TripBooking bookedTrip = tripBookingRepository2.findById(tripId).get();
 		bookedTrip.setStatus(TripStatus.CANCELED);
 		bookedTrip.setBill(0); //Bill amount set to zero after cancel
@@ -93,7 +88,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void completeTrip(Integer tripId){
-		//Complete the trip having given trip Id and update TripBooking attributes accordingly
 		TripBooking bookedTrip = tripBookingRepository2.findById(tripId).get();
 		bookedTrip.setStatus(TripStatus.COMPLETED);
 		bookedTrip.getDriver().getCab().setAvailable(true);
